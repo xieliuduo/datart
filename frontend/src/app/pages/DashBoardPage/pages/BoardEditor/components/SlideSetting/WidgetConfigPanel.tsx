@@ -38,19 +38,22 @@ const StyledWrapper = styled.div`
 `;
 export const WidgetConfigPanel: FC<{}> = memo(() => {
   const dispatch = useDispatch();
-  // const t = useI18NPrefix(`viz.board.setting`);
   const widget = useContext(WidgetContext) as unknown as IWidget;
   const configs = widget.config.jsonConfig.props;
+
   const widgetTypeId = widget.config.widgetTypeId;
   const i18ns = widgetManager.meta(widgetTypeId).i18ns;
-  // boardConfig.jsonConfig.i18ns;
   const onChange = (
     ancestors: number[],
     configItem: ChartStyleConfig,
     needRefresh?: boolean,
   ) => {
     dispatch(
-      editBoardStackActions.updateBoardConfigByKey({ ancestors, configItem }),
+      editBoardStackActions.updateWidgetConfigByKey({
+        ancestors,
+        configItem,
+        wid: widget.id,
+      }),
     );
   };
   return (
