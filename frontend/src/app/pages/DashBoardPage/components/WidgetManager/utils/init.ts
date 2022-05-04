@@ -101,8 +101,8 @@ export const TitleI18N = {
 };
 export const initPaddingTpl = () => {
   const paddingTpl: ChartStyleConfig = {
-    label: 'padding.padding',
-    key: 'padding',
+    label: 'padding.paddingGroup',
+    key: 'paddingGroup',
     comType: 'group',
     rows: [
       {
@@ -136,14 +136,14 @@ export const initPaddingTpl = () => {
 
 export const PaddingI18N = {
   zh: {
-    padding: '内边距',
+    paddingGroup: '内边距',
     top: '上',
     bottom: '下',
     left: '左',
     right: '右',
   },
   en: {
-    padding: 'Padding',
+    paddingGroup: 'Padding',
     top: 'Top',
     bottom: 'Bottom',
     left: 'Left',
@@ -152,8 +152,8 @@ export const PaddingI18N = {
 };
 export const initLoopFetchTpl = () => {
   const loopFetchTpl: ChartStyleConfig = {
-    label: 'loopFetch.loopFetch',
-    key: 'loopFetch',
+    label: 'loopFetch.loopFetchGroup',
+    key: 'loopFetchGroup',
     comType: 'group',
     rows: [
       {
@@ -175,20 +175,20 @@ export const initLoopFetchTpl = () => {
 
 export const LoopFetchI18N = {
   zh: {
-    loopFetch: '自动刷新数据',
+    loopFetchGroup: '自动刷新数据',
     enable: '启用',
-    interval: '间隔',
+    interval: '间隔(s)',
   },
   en: {
-    loopFetch: 'Loop Fetch',
+    loopFetchGroup: 'Loop Fetch',
     enable: 'Enable',
-    interval: 'Interval',
+    interval: 'Interval (s)',
   },
 };
 export const initBackgroundTpl = () => {
   const backgroundTpl: ChartStyleConfig = {
-    label: 'background.background',
-    key: 'background',
+    label: 'background.backgroundGroup',
+    key: 'backgroundGroup',
     comType: 'group',
     rows: [
       {
@@ -214,12 +214,12 @@ export const initBackgroundTpl = () => {
 };
 export const initBorderTpl = () => {
   const borderTpl: ChartStyleConfig = {
-    label: 'borderGroup.borderGroup',
+    label: 'border.borderGroup',
     key: 'borderGroup',
     comType: 'group',
     rows: [
       {
-        label: 'borderGroup.border',
+        label: 'border.border',
         key: 'border',
         value: {
           color: 'transparent', // TODO 根据当前主题色配置

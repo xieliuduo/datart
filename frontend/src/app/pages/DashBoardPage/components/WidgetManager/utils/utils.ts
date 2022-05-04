@@ -27,7 +27,7 @@ import { getJsonConfigs } from '../../../utils';
 export const getLoopFetch = props => {
   const [enable, interval] = getJsonConfigs(
     props,
-    ['loopFetch'],
+    ['loopFetchGroup'],
     ['enable', 'interval'],
   );
   return {
@@ -46,7 +46,7 @@ export const getWidgetBorder = props => {
 export const getWidgetPadding = props => {
   const [top, right, bottom, left] = getJsonConfigs(
     props,
-    ['padding'],
+    ['paddingGroup'],
     ['top', 'right', 'bottom', 'left'],
   );
   return {

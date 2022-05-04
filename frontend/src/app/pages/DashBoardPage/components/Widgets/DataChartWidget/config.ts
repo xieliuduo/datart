@@ -91,14 +91,10 @@ export const getMeta = (opt: {
             closeJump: '关闭跳转',
           },
           title: TitleI18N.zh,
-          background: {
-            background: '背景',
-          },
+          background: { backgroundGroup: '背景' },
           padding: PaddingI18N.zh,
           loopFetch: LoopFetchI18N.zh,
-          borderGroup: {
-            borderGroup: '边框',
-          },
+          border: { borderGroup: '边框' },
         },
       },
       {
@@ -115,14 +111,10 @@ export const getMeta = (opt: {
             closeJump: 'Close Jump',
           },
           title: TitleI18N.en,
-          background: {
-            background: 'Background',
-          },
+          background: { backgroundGroup: 'Background' },
           padding: PaddingI18N.en,
           loopFetch: LoopFetchI18N.en,
-          borderGroup: {
-            borderGroup: 'Border',
-          },
+          border: { borderGroup: 'Border' },
         },
       },
     ],
