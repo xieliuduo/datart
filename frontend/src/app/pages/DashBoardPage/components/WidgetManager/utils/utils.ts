@@ -22,7 +22,7 @@ import {
   WidgetPadding,
   WidgetTitleConfig,
 } from 'app/pages/DashBoardPage/pages/Board/slice/types';
-import { getJsonConfigs } from '../../utils';
+import { getJsonConfigs } from '../../../utils';
 
 export const getLoopFetch = props => {
   const [enable, interval] = getJsonConfigs(
@@ -66,8 +66,8 @@ export const getWidgetBaseStyle = props => {
 export const getWidgetTitle = props => {
   const [text, showTitle, textAlign, font] = getJsonConfigs(
     props,
-    ['title'],
-    ['text', 'showTitle', 'textAlign', 'font'],
+    ['titleGroup'],
+    ['title', 'showTitle', 'textAlign', 'font'],
   );
   return {
     text,

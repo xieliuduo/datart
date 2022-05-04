@@ -28,13 +28,13 @@ import type { ChartStyleConfig } from 'app/types/ChartConfig';
 import { uuidv4 } from 'utils/utils';
 export const initTitleTpl = () => {
   const titleTpl: ChartStyleConfig = {
-    label: 'title.title',
-    key: 'title',
+    label: 'title.titleGroup',
+    key: 'titleGroup',
     comType: 'group',
     rows: [
       {
-        label: 'title.text',
-        key: 'text',
+        label: 'title.title',
+        key: 'title',
         value: '',
         comType: 'input',
       },
@@ -42,12 +42,6 @@ export const initTitleTpl = () => {
         label: 'title.showTitle',
         key: 'showTitle',
         value: true,
-        comType: 'switch',
-      },
-      {
-        label: 'title.textAlign',
-        key: 'textAlign',
-        value: 'left',
         comType: 'switch',
       },
       {
@@ -83,8 +77,8 @@ export const initTitleTpl = () => {
 };
 export const TitleI18N = {
   zh: {
-    title: '标题配置',
-    text: '标题',
+    titleGroup: '标题配置',
+    title: '标题',
     showTitle: '显示标题',
     font: '标题字体',
     textAlign: {
@@ -94,8 +88,8 @@ export const TitleI18N = {
     },
   },
   en: {
-    title: 'Title Config',
-    text: 'Title',
+    titleGroup: 'Title Config',
+    title: 'Title',
     showTitle: 'Show Title',
     font: 'Title Font',
     textAlign: {
@@ -220,12 +214,12 @@ export const initBackgroundTpl = () => {
 };
 export const initBorderTpl = () => {
   const borderTpl: ChartStyleConfig = {
-    label: 'border.borderGroup',
+    label: 'borderGroup.borderGroup',
     key: 'borderGroup',
     comType: 'group',
     rows: [
       {
-        label: 'border.border',
+        label: 'borderGroup.border',
         key: 'border',
         value: {
           color: 'transparent', // TODO 根据当前主题色配置
