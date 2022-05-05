@@ -56,7 +56,7 @@ import {
   Relation,
   ServerRelation,
   ServerWidget,
-  Widget,
+  WidgetBeta3,
   WidgetConf,
   WidgetContent,
   WidgetContentChartType,
@@ -104,7 +104,7 @@ export const createControllerWidget = (opt: {
   });
 
   const widgetId = relations[0]?.sourceId || uuidv4();
-  const widget: Widget = createWidget({
+  const widget: WidgetBeta3 = createWidget({
     id: widgetId,
     dashboardId: boardId,
     config: widgetConf,
@@ -123,7 +123,7 @@ export const createMediaWidget = (opt: {
     content: content,
     boardType: opt.boardType,
   });
-  const widget: Widget = createWidget({
+  const widget: WidgetBeta3 = createWidget({
     dashboardId: opt.dashboardId,
     config: widgetConf,
   });
@@ -140,7 +140,7 @@ export const createContainerWidget = (opt: {
     content: content,
     boardType: opt.boardType,
   });
-  const widget: Widget = createWidget({
+  const widget: WidgetBeta3 = createWidget({
     dashboardId: opt.dashboardId,
     config: widgetConf,
   });
@@ -154,7 +154,7 @@ export const createControlBtn = (opt: BtnActionParams) => {
     content: content,
     boardType: opt.boardType,
   });
-  const widget: Widget = createWidget({
+  const widget: WidgetBeta3 = createWidget({
     dashboardId: opt.boardId,
     config: widgetConf,
   });
@@ -210,7 +210,7 @@ export const createWidget = (option: {
   parentId?: string;
   relations?: Relation[];
 }) => {
-  const widget: Widget = {
+  const widget: WidgetBeta3 = {
     id: option.id || 'newWidget_' + uuidv4(),
     dashboardId: option.dashboardId,
     config: option.config,
@@ -401,7 +401,9 @@ export const createMediaContent = (type: MediaWidgetType) => {
   return content;
 };
 
-export const getWidgetInfoMapByServer = (widgetMap: Record<string, Widget>) => {
+export const getWidgetInfoMapByServer = (
+  widgetMap: Record<string, WidgetBeta3>,
+) => {
   const widgetInfoMap = {};
   Object.values(widgetMap).forEach(item => {
     widgetInfoMap[item.id] = createWidgetInfo(item.id);
@@ -469,7 +471,7 @@ export const updateFreeWidgetsRect = (widgets: IWidget[]) => {
  * @description ''
  */
 export const createToSaveWidgetGroup = (
-  widgets: Widget[],
+  widgets: WidgetBeta3[],
   widgetIds: string[],
 ) => {
   const curWidgetIds = widgets.map(widget => widget.id);
@@ -497,7 +499,7 @@ export const createToSaveWidgetGroup = (
   };
 };
 
-export const convertWidgetToSave = (widget: Widget): ServerWidget => {
+export const convertWidgetToSave = (widget: WidgetBeta3): ServerWidget => {
   return {
     ...widget,
     config: JSON.stringify(widget.config),
@@ -513,11 +515,11 @@ export const convertWidgetRelationsToSave = (
   });
 };
 
-export const convertToWidgetMap = (widgets: Widget[]) => {
+export const convertToWidgetMap = (widgets: WidgetBeta3[]) => {
   return widgets.reduce((acc, cur) => {
     acc[cur.id] = cur;
     return acc;
-  }, {} as Record<string, Widget>);
+  }, {} as Record<string, WidgetBeta3>);
 };
 
 export const createWidgetInfoMap = (widgets: IWidget[]) => {
@@ -552,17 +554,17 @@ export const convertWrapChartWidget = (params: {
  * @param ''
  * @description 'get all filter widget of board'
  */
-export const getAllControlWidget = (widgetMap: Record<string, Widget>) => {
+export const getAllControlWidget = (widgetMap: Record<string, WidgetBeta3>) => {
   const controlWidgetMap = Object.values(widgetMap)
     .filter(widget => widget.config.type === 'controller')
     .reduce((acc, cur) => {
       acc[cur.id] = cur;
       return acc;
-    }, {} as Record<string, Widget>);
+    }, {} as Record<string, WidgetBeta3>);
   return controlWidgetMap;
 };
 export const getOtherStringControlWidgets = (
-  allWidgets: Widget[],
+  allWidgets: WidgetBeta3[],
   widgetId: string | undefined,
 ) => {
   const allFilterWidgets = allWidgets.filter(ele => {
@@ -584,7 +586,7 @@ export const getOtherStringControlWidgets = (
  * @description 'get showing controller by all filterWidget of board'
  */
 export const getVisibleControlWidgetIds = (
-  controlWidgetMap: Record<string, Widget>,
+  controlWidgetMap: Record<string, WidgetBeta3>,
 ) => {
   const widgets = Object.values(controlWidgetMap);
   const visibleWidgets = getNoHiddenControllers(widgets);
@@ -596,13 +598,13 @@ export const getVisibleControlWidgetIds = (
   };
 };
 
-export const getLayoutWidgets = (widgetMap: Record<string, Widget>) => {
+export const getLayoutWidgets = (widgetMap: Record<string, WidgetBeta3>) => {
   const noSubWidgets = Object.values(widgetMap).filter(w => !w.parentId);
   const layoutWidgets = getNoHiddenControllers(noSubWidgets);
   return layoutWidgets;
 };
 
-export const getNoHiddenControllers = (widgets: Widget[]) => {
+export const getNoHiddenControllers = (widgets: WidgetBeta3[]) => {
   const noHiddenControlWidgets = widgets.filter(w => {
     if (w.config.type !== 'controller') {
       return true;
@@ -646,14 +648,14 @@ export const getNoHiddenControllers = (widgets: Widget[]) => {
   return noHiddenControlWidgets;
 };
 
-export const getNeedRefreshWidgetsByController = (controller: Widget) => {
+export const getNeedRefreshWidgetsByController = (controller: WidgetBeta3) => {
   const relations = controller.relations;
   const widgetIds = relations
     .filter(ele => ele.config.type === 'controlToWidget')
     .map(ele => ele.targetId);
   return widgetIds;
 };
-export const getCascadeControllers = (controller: Widget) => {
+export const getCascadeControllers = (controller: WidgetBeta3) => {
   const relations = controller.relations;
   const ids = relations
     .filter(ele => ele.config.type === 'controlToControlCascade')
@@ -661,7 +663,7 @@ export const getCascadeControllers = (controller: Widget) => {
   return ids;
 };
 
-export const getFreeWidgetStyle = (widget: Widget) => {
+export const getFreeWidgetStyle = (widget: WidgetBeta3) => {
   const widgetConf = widget.config;
   const rect = widgetConf.rect;
   let widgetStyle: CSSProperties = {
@@ -729,7 +731,7 @@ export const getWidgetSomeStyle = (opt: {
 
 export const getLinkedColumn = (
   targetWidgetId: string,
-  triggerWidget: Widget,
+  triggerWidget: WidgetBeta3,
 ) => {
   const relations = triggerWidget.relations;
   const relation = relations.find(item => item.targetId === targetWidgetId);
@@ -743,7 +745,7 @@ export const getLinkedColumn = (
 
 // TODO chart widget
 export const getWidgetMap = (
-  widgets: Widget[],
+  widgets: WidgetBeta3[],
   dataCharts: DataChart[],
   filterSearchParamsMap?: FilterSearchParamsWithMatch,
 ) => {
@@ -762,10 +764,10 @@ export const getWidgetMap = (
       viewIds,
     };
     return acc;
-  }, {} as Record<string, Widget>);
+  }, {} as Record<string, WidgetBeta3>);
 
   const wrappedDataCharts: DataChart[] = [];
-  const controllerWidgets: Widget[] = []; // use for reset button
+  const controllerWidgets: WidgetBeta3[] = []; // use for reset button
   const widgetList = Object.values(widgetMap);
 
   // 处理 widget包含关系 containerWidget 被包含的 widget.parentId 不为空

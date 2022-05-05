@@ -43,7 +43,7 @@ import { ControllerConfig } from '../../BoardEditor/components/ControllerWidgetP
 export interface BoardState {
   boardRecord: Record<string, Dashboard>;
   boardInfoRecord: Record<string, BoardInfo>;
-  widgetRecord: Record<string, Record<string, Widget>>;
+  widgetRecord: Record<string, Record<string, WidgetBeta3>>;
   widgetInfoRecord: Record<string, Record<string, WidgetInfo>>;
   dataChartMap: Record<string, DataChart>;
   viewMap: Record<string, ChartDataView>; // View
@@ -110,7 +110,7 @@ BoardTypes.includes('auto');
 export type BoardType = typeof BoardTypes[number];
 
 export interface Chart {}
-export interface Widget {
+export interface WidgetBeta3 {
   id: string;
   dashboardId: string;
   datachartId: string;
@@ -119,10 +119,11 @@ export interface Widget {
   config: WidgetConf;
   parentId?: string;
 }
-export interface WidgetOfCopy extends Widget {
+export interface WidgetOfCopy extends WidgetBeta3 {
   selectedCopy?: boolean;
 }
-export interface ServerWidget extends Omit<Widget, 'config' | 'relations'> {
+export interface ServerWidget
+  extends Omit<WidgetBeta3, 'config' | 'relations'> {
   config: string;
   relations: ServerRelation[];
 }
@@ -444,7 +445,7 @@ export interface BoardInfo {
   needFetchItems: string[];
   hasFetchItems: string[];
   boardWidthHeight: [number, number];
-  originControllerWidgets: Widget[]; // use for reset button
+  originControllerWidgets: WidgetBeta3[]; // use for reset button
 }
 export enum DeviceType {
   Desktop = 'desktop',

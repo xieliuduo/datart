@@ -24,7 +24,7 @@ import {
   DeviceType,
   MediaWidgetContent,
   RectConfig,
-  Widget,
+  WidgetBeta3,
   WidgetConf,
 } from 'app/pages/DashBoardPage/pages/Board/slice/types';
 import { IWidget } from 'app/pages/DashBoardPage/types/widgetTypes';
@@ -134,7 +134,7 @@ export const editBoardStackSlice = createSlice({
         delete state.widgetRecord[id];
       });
     },
-    updateWidget(state, action: PayloadAction<Widget>) {
+    updateWidget(state, action: PayloadAction<WidgetBeta3>) {
       const widget = action.payload;
       state.widgetRecord[widget.id] = widget;
     },
