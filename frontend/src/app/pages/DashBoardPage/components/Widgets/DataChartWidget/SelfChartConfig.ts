@@ -19,6 +19,7 @@
 import {
   BoardType,
   DataChart,
+  Relation,
 } from 'app/pages/DashBoardPage/pages/Board/slice/types';
 import { WidgetToolkit } from 'app/pages/DashBoardPage/types/widgetTypes';
 import { dataChartCreator, getMeta } from './config';
@@ -35,35 +36,41 @@ export const selfChartMeta = getMeta({
     widgetTypeId: 'Link Chart',
   },
 });
-export const selfChartToolkit = {
+export type SelfChartToolkit = WidgetToolkit & {};
+export const selfChartToolkit: SelfChartToolkit = {
   create: (opt: {
-    dashboardId: string;
-    boardType: BoardType;
-    dataChartId: string;
-    dataChartConfig: DataChart;
+    dashboardId?: string;
+    boardType?: BoardType;
+    datachartId: string;
+    relations: Relation[];
+    dataChartConfig?: DataChart;
     viewIds: string[];
-    widgetTypeId: 'linkChart' | 'selfChart';
   }) => {
-    const widget = dataChartCreator(opt);
+    const widget = dataChartCreator({ ...opt, widgetTypeId: 'linkChart' });
     return widget;
   },
   edit() {},
   save() {},
-  lock() {},
-  unlock() {},
-  copy() {},
-  paste() {},
-  delete() {},
-  changeTitle() {},
-  getMeta() {},
-  getWidgetName() {},
-  //
-  setLinkage() {},
-  closeLinkage() {},
-  setJump() {},
-  closeJump() {},
-} as WidgetToolkit;
-
+  // lock() {},
+  // unlock() {},
+  // copy() {},
+  // paste() {},
+  // delete() {},
+  // changeTitle() {},
+  // getMeta() {},
+  // getWidgetName() {},
+  // //
+  // setLinkage() {},
+  // closeLinkage() {},
+  // setJump() {},
+  // closeJump() {},
+};
+// class SelfChartProto{
+//   public widgetTypeId
+//   constructor(){
+//     return this;
+//   }
+// }
 const selfChartProto = {
   widgetTypeId: 'selfChart',
   meta: selfChartMeta,

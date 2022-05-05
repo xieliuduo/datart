@@ -110,7 +110,7 @@ export const fetchEditBoardDetail = createAsyncThunk<
     const dataCharts: DataChart[] = getDataChartsByServer(serverDataCharts);
     const migratedWidgets = migrateWidgets(serverWidgets);
     const { widgetMap, wrappedDataCharts } = getWidgetMap(
-      migratedWidgets,
+      migratedWidgets as any, //todo
       dataCharts,
     );
     const widgetInfoMap = getWidgetInfoMapByServer(widgetMap);
@@ -250,7 +250,8 @@ export const addDataChartWidgets = createAsyncThunk<
       let widget = widgetManager.toolkit('linkChart').create({
         dashboardId: boardId,
         boardType: boardType,
-        dataChartId: dcId,
+        datachartId: dcId,
+        relations: [],
         dataChartConfig: dataChartMap[dcId],
         viewIds: viewIds,
         widgetTypeId: 'linkChart',
@@ -291,7 +292,8 @@ export const addWrapChartWidget = createAsyncThunk<
     let widget = widgetManager.toolkit('selfChart').create({
       dashboardId: boardId,
       boardType: boardType,
-      dataChartId: chartId,
+      datachartId: chartId,
+      relations: [],
       dataChartConfig: dataChart,
       viewIds: view?.id ? [view.id] : [],
       widgetTypeId: 'selfChart',

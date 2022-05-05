@@ -19,6 +19,7 @@
 import {
   BoardType,
   DataChart,
+  Relation,
 } from 'app/pages/DashBoardPage/pages/Board/slice/types';
 import { WidgetMeta } from 'app/pages/DashBoardPage/types/widgetTypes';
 import {
@@ -123,19 +124,22 @@ export const getMeta = (opt: {
 };
 
 export const dataChartCreator = (opt: {
-  dashboardId: string;
-  boardType: BoardType;
-  dataChartId: string;
-  dataChartConfig: DataChart;
+  dashboardId?: string;
+  boardType?: BoardType;
+  datachartId: string;
+  dataChartConfig?: DataChart;
+  relations: Relation[];
   viewIds: string[];
   widgetTypeId: 'linkChart' | 'selfChart';
+  parentId?: string;
 }) => {
   const widget = widgetTpl();
-  widget.dashboardId = opt.dashboardId;
-  widget.datachartId = opt.dataChartId;
+  widget.parentId = opt.parentId || '';
+  widget.dashboardId = opt.dashboardId || '';
+  widget.datachartId = opt.datachartId || '';
   widget.viewIds = opt.viewIds || [];
+  widget.relations = opt.relations;
   widget.config.widgetTypeId = opt.widgetTypeId;
-  widget.config.boardType = opt.boardType;
   widget.config.type = 'chart';
   widget.config.selfConfig.dataChartConfig = opt.dataChartConfig;
 
@@ -143,7 +147,7 @@ export const dataChartCreator = (opt: {
     if (ele.key === 'titleGroup') {
       ele.rows?.forEach(row => {
         if (row.key === 'title') {
-          row.value = opt.dataChartConfig.name || '';
+          row.value = opt?.dataChartConfig?.name || '';
         }
       });
     }

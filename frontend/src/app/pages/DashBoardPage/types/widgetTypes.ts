@@ -53,8 +53,9 @@ export interface WidgetConf {
 export interface WidgetToolkit {
   create: (opt: {
     dashboardId: string;
-    boardType: BoardType;
-    dataChartId: string;
+    boardType?: BoardType;
+    datachartId: string;
+    relations: Relation[];
     dataChartConfig?: DataChart;
     viewIds: string[];
     widgetTypeId: string;
