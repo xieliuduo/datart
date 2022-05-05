@@ -109,14 +109,13 @@ export const BoardTypes = ['auto', 'free'] as const;
 BoardTypes.includes('auto');
 export type BoardType = typeof BoardTypes[number];
 
-export interface Chart {}
 export interface WidgetBeta3 {
   id: string;
   dashboardId: string;
   datachartId: string;
   relations: Relation[];
   viewIds: string[];
-  config: WidgetConf;
+  config: WidgetConfBeta3;
   parentId?: string;
 }
 export interface WidgetOfCopy extends WidgetBeta3 {
@@ -127,7 +126,7 @@ export interface ServerWidget
   config: string;
   relations: ServerRelation[];
 }
-export interface WidgetConf {
+export interface WidgetConfBeta3 {
   version: string;
   index: number;
   tabId?: string; //记录在父容器tab的位置

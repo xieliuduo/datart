@@ -57,7 +57,7 @@ import {
   ServerRelation,
   ServerWidget,
   WidgetBeta3,
-  WidgetConf,
+  WidgetConfBeta3,
   WidgetContent,
   WidgetContentChartType,
   WidgetInfo,
@@ -66,7 +66,7 @@ import {
 import { StrControlTypes } from '../pages/BoardEditor/components/ControllerWidgetPanel/constants';
 import { ControllerConfig } from '../pages/BoardEditor/components/ControllerWidgetPanel/types';
 import { BtnActionParams } from '../pages/BoardEditor/slice/actions/controlActions';
-import { IWidget } from '../types/widgetTypes';
+import { Widget } from '../types/widgetTypes';
 
 export const VALUE_SPLITTER = '###';
 
@@ -168,7 +168,7 @@ export const createInitWidgetConfig = (opt: {
   name?: string;
   autoUpdate?: boolean;
   frequency?: number;
-}): WidgetConf => {
+}): WidgetConfBeta3 => {
   return {
     version: '',
     type: opt.type,
@@ -203,7 +203,7 @@ export const createInitWidgetConfig = (opt: {
 };
 export const createWidget = (option: {
   dashboardId: string;
-  config: WidgetConf;
+  config: WidgetConfBeta3;
   datachartId?: string;
   id?: string;
   viewIds?: string[];
@@ -412,7 +412,7 @@ export const getWidgetInfoMapByServer = (
 };
 
 export const updateWidgetsRect = (
-  widgets: IWidget[],
+  widgets: Widget[],
   boardType: BoardType,
   layouts?: ReactGridLayout.Layout[],
 ) => {
@@ -425,10 +425,10 @@ export const updateWidgetsRect = (
 };
 
 export const updateAutoWidgetsRect = (
-  widgets: IWidget[],
+  widgets: Widget[],
   layouts: ReactGridLayout.Layout[],
-): IWidget[] => {
-  const upDatedWidgets: IWidget[] = [];
+): Widget[] => {
+  const upDatedWidgets: Widget[] = [];
   const dashWidgetRectYs = layouts.map(ele => ele.y);
   let widgetsCount = dashWidgetRectYs.length;
   let itemYs = [...dashWidgetRectYs];
@@ -451,8 +451,8 @@ export const updateAutoWidgetsRect = (
   return upDatedWidgets;
 };
 
-export const updateFreeWidgetsRect = (widgets: IWidget[]) => {
-  const upDatedWidgets: IWidget[] = [];
+export const updateFreeWidgetsRect = (widgets: Widget[]) => {
+  const upDatedWidgets: Widget[] = [];
   let diffValue = 0; // 避免完全重叠
   widgets.forEach(widget => {
     widget = produce(widget, draft => {
@@ -522,7 +522,7 @@ export const convertToWidgetMap = (widgets: WidgetBeta3[]) => {
   }, {} as Record<string, WidgetBeta3>);
 };
 
-export const createWidgetInfoMap = (widgets: IWidget[]) => {
+export const createWidgetInfoMap = (widgets: Widget[]) => {
   return widgets.reduce((acc, cur) => {
     acc[cur.id] = createWidgetInfo(cur.id);
     return acc;
@@ -530,7 +530,7 @@ export const createWidgetInfoMap = (widgets: IWidget[]) => {
 };
 
 export const convertWrapChartWidget = (params: {
-  widgetMap: Record<string, IWidget>;
+  widgetMap: Record<string, Widget>;
   dataChartMap: Record<string, DataChart>;
   viewMap: Record<string, ChartDataView>;
 }) => {
@@ -853,7 +853,7 @@ export const getWidgetMap = (
 
   // 处理 自有 chart widgetControl
   widgetList
-    .filter(w => (w as unknown as IWidget).config.widgetTypeId === 'selfChart')
+    .filter(w => (w as unknown as Widget).config.widgetTypeId === 'selfChart')
     .forEach(widget => {
       let content = widget.config.content as ChartWidgetContent;
       const self_dataChartId = `widget_${widget.dashboardId}_${widget.id}`;

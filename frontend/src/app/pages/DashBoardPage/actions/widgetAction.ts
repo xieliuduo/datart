@@ -42,7 +42,7 @@ import {
   getEditChartWidgetDataAsync,
   getEditWidgetData,
 } from '../pages/BoardEditor/slice/thunk';
-import { IWidget } from '../types/widgetTypes';
+import { Widget } from '../types/widgetTypes';
 import { getValueByRowData } from '../utils/widget';
 
 export const toggleLinkageAction =
@@ -292,8 +292,7 @@ export const widgetChartClickAction =
     }
   };
 export const widgetGetDataAction =
-  (editing: boolean, widget: IWidget, renderMode: VizRenderMode) =>
-  dispatch => {
+  (editing: boolean, widget: Widget, renderMode: VizRenderMode) => dispatch => {
     const boardId = widget.dashboardId;
     if (editing) {
       dispatch(getEditWidgetData({ widget }));

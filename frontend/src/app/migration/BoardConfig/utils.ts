@@ -18,10 +18,10 @@
 
 import { widgetTpl } from 'app/pages/DashBoardPage/components/WidgetManager/utils/init';
 import { WidgetBeta3 } from 'app/pages/DashBoardPage/pages/Board/slice/types';
-import { IWidget } from 'app/pages/DashBoardPage/types/widgetTypes';
+import { Widget } from 'app/pages/DashBoardPage/types/widgetTypes';
 
 export const convertWidgetToBeta4 = (widget: WidgetBeta3) => {
-  let newWidget = { ...widget } as unknown as IWidget;
+  let newWidget = { ...widget } as unknown as Widget;
   newWidget.config = widgetTpl().config;
   return newWidget;
 };

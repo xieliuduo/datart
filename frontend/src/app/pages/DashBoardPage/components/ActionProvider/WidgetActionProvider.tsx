@@ -42,7 +42,7 @@ import {
 import {
   VizRenderMode,
   WidgetBeta3,
-  WidgetConf,
+  WidgetConfBeta3,
 } from '../../pages/Board/slice/types';
 import {
   editBoardStackActions,
@@ -65,7 +65,7 @@ import {
   getEditControllerOptions,
   renderedEditWidgetAsync,
 } from '../../pages/BoardEditor/slice/thunk';
-import { IWidget } from '../../types/widgetTypes';
+import { Widget } from '../../types/widgetTypes';
 import {
   getCascadeControllers,
   getNeedRefreshWidgetsByController,
@@ -166,7 +166,7 @@ export const WidgetActionProvider: FC<{
           }
         });
       }, 500),
-      onUpdateWidgetConfig: (config: WidgetConf, wid: string) => {
+      onUpdateWidgetConfig: (config: WidgetConfBeta3, wid: string) => {
         dispatch(editBoardStackActions.updateWidgetConfig({ wid, config }));
       },
       onWidgetUpdate: (widget: WidgetBeta3) => {
@@ -204,7 +204,7 @@ export const WidgetActionProvider: FC<{
           }),
         );
       },
-      onWidgetGetData: (widget: IWidget) => {
+      onWidgetGetData: (widget: Widget) => {
         dispatch(widgetGetDataAction(boardEditing, widget, renderMode));
       },
 
@@ -296,9 +296,9 @@ export interface WidgetActionContextProps {
     params: ChartMouseEventParams,
   ) => void;
   onWidgetClearLinkage: (widget: WidgetBeta3) => void;
-  onWidgetGetData: (widget: IWidget) => void;
+  onWidgetGetData: (widget: Widget) => void;
   onWidgetUpdate: (widget: WidgetBeta3) => void;
-  onUpdateWidgetConfig: (config: WidgetConf, wid: string) => void;
+  onUpdateWidgetConfig: (config: WidgetConfBeta3, wid: string) => void;
   onRefreshWidgetsByController: (widget: WidgetBeta3) => void;
   onWidgetsQuery: () => void;
   onRenderedWidgetById: (wid: string) => void;
