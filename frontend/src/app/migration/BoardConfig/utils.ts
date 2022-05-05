@@ -25,6 +25,8 @@ const commonConvert = (newWidget: Widget, oldW: WidgetBeta3) => {
   newWidget.config.index = oldW.config.index;
   newWidget.config.lock = oldW.config.lock;
   newWidget.config.rect = oldW.config.rect;
+  newWidget.config.content = oldW.config.content; //Todo
+
   if (oldW.config.mobileRect) {
     newWidget.config.mRect = oldW.config.mobileRect;
   }
@@ -103,24 +105,21 @@ const commonConvert = (newWidget: Widget, oldW: WidgetBeta3) => {
 };
 export const convertWidgetToBeta4 = (widget: WidgetBeta3) => {
   if (widget.config.type === 'chart') {
-    let newWidget;
+    let newWidget = {} as Widget;
     if (widget.config.content.type === 'dataChart') {
       newWidget = widgetManager
         .toolkit('linkChart')
         .create({ ...widget, widgetTypeId: 'linkChart' });
-
-      newWidget = commonConvert(newWidget, widget);
-
-      // newWidget.config.content = widget.config.content; ？
-
-      return newWidget;
     } else {
-      newWidget = widgetManager
-        .toolkit('selfChart')
-        .create({ ...widget, widgetTypeId: 'selfChart' });
+      newWidget = widgetManager.toolkit('selfChart').create({
+        ...widget,
+        widgetTypeId: 'selfChart',
+      });
     }
+    newWidget = commonConvert(newWidget, widget);
     newWidget.config.jumpConfig = widget.config.jumpConfig;
     newWidget.config.linkageConfig = widget.config.linkageConfig;
+    newWidget.config.selfConfig = widget.config.content;
     return newWidget;
   }
 };

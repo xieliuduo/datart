@@ -16,11 +16,6 @@
  * limitations under the License.
  */
 
-import {
-  BoardType,
-  DataChart,
-  Relation,
-} from 'app/pages/DashBoardPage/pages/Board/slice/types';
 import { WidgetToolkit } from 'app/pages/DashBoardPage/types/widgetTypes';
 import { dataChartCreator, getMeta } from './config';
 
@@ -38,15 +33,11 @@ export const linkChartMeta = getMeta({
 });
 export type LinkChartToolkit = WidgetToolkit & {};
 export const linkChartToolkit: LinkChartToolkit = {
-  create: (opt: {
-    dashboardId?: string;
-    boardType?: BoardType;
-    datachartId: string;
-    relations: Relation[];
-    dataChartConfig?: DataChart;
-    viewIds: string[];
-  }) => {
-    const widget = dataChartCreator({ ...opt, widgetTypeId: 'linkChart' });
+  create: opt => {
+    const widget = dataChartCreator({
+      ...opt,
+      widgetTypeId: linkChartMeta.widgetTypeId,
+    });
     return widget;
   },
   edit() {},

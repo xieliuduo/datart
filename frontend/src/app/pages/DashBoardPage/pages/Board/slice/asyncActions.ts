@@ -53,6 +53,7 @@ export const handleServerBoardAction =
 
     const dataCharts: DataChart[] = getDataChartsByServer(datacharts);
     const migratedWidgets = migrateWidgets(serverWidgets);
+    debugger;
     const { widgetMap, wrappedDataCharts, controllerWidgets } = getWidgetMap(
       migratedWidgets as any, //TODO
       dataCharts,

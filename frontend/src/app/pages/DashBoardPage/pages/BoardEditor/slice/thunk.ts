@@ -252,7 +252,7 @@ export const addDataChartWidgets = createAsyncThunk<
         boardType: boardType,
         datachartId: dcId,
         relations: [],
-        dataChartConfig: dataChartMap[dcId],
+        dataChart: dataChartMap[dcId],
         viewIds: viewIds,
         widgetTypeId: 'linkChart',
       });
@@ -294,7 +294,7 @@ export const addWrapChartWidget = createAsyncThunk<
       boardType: boardType,
       datachartId: chartId,
       relations: [],
-      dataChartConfig: dataChart,
+      dataChart: dataChart,
       viewIds: view?.id ? [view.id] : [],
       widgetTypeId: 'selfChart',
     });

@@ -56,9 +56,10 @@ export interface WidgetToolkit {
     boardType?: BoardType;
     datachartId: string;
     relations: Relation[];
-    dataChartConfig?: DataChart;
+    dataChart?: DataChart;
     viewIds: string[];
     widgetTypeId: string;
+    parentId?: string;
   }) => Widget;
   edit?: () => void;
   save?: () => void;
