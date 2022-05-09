@@ -17,7 +17,6 @@
  */
 import { ControllerFacadeTypes } from 'app/constants';
 import { memo, useContext } from 'react';
-import { Widget } from '../../types/widgetTypes';
 import { WidgetDataProvider } from '../WidgetProvider/WidgetDataProvider';
 import { WidgetContext } from '../WidgetProvider/WidgetProvider';
 import { ControllerWidget } from '../Widgets/ControllerWidget/ControllerWidget';
@@ -35,7 +34,7 @@ export const WidgetMapper: React.FC<{
   boardEditing: boolean;
   hideTitle: boolean;
 }> = memo(({ boardEditing }) => {
-  const widget = useContext(WidgetContext) as unknown as Widget;
+  const widget = useContext(WidgetContext);
   const widgetTypeId = widget.config.widgetTypeId;
   switch (widgetTypeId) {
     // chart

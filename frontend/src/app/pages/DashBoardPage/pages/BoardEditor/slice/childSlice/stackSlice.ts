@@ -246,7 +246,7 @@ export const editBoardStackSlice = createSlice({
       const { parentId, tabItem, sourceId } = action.payload;
       const tabContent = state.widgetRecord[parentId].config
         .content as TabWidgetContent;
-      const sourceWidget = state.widgetRecord[sourceId] as unknown as Widget;
+      const sourceWidget = state.widgetRecord[sourceId];
       let tabName =
         getWidgetTitle(sourceWidget.config?.jsonConfig?.props).title || 'tab*';
       tabContent.itemMap[sourceWidget.config.clientId] = {
