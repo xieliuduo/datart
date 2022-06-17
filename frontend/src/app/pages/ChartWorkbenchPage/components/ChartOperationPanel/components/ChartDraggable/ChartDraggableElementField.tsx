@@ -32,6 +32,7 @@ import { SortActionType } from 'app/constants';
 import { getColumnRenderName } from 'app/utils/chartHelper';
 import { FC, memo } from 'react';
 import ChartDataConfigSectionActionMenu from './ChartDataConfigSectionActionMenu';
+import ELementFieldReplaceMenu from './ELementFieldReplaceMenu';
 
 const ChartDraggableElementField: FC<{
   modalSize;
@@ -54,6 +55,16 @@ const ChartDraggableElementField: FC<{
     handleOpenActionModal,
   }) => {
     const renderActionExtensionMenu = (uid: string, type: string, category) => {
+      return (
+        <ELementFieldReplaceMenu
+          uid={uid}
+          type={type}
+          columnConfig={columnConfig}
+          ancestors={ancestors}
+          config={config}
+          onConfigChanged={onConfigChanged}
+        />
+      );
       return (
         <ChartDataConfigSectionActionMenu
           uid={uid}
@@ -113,7 +124,8 @@ const ChartDraggableElementField: FC<{
         overlayClassName="datart-data-section-dropdown"
         trigger={['click']}
       >
-        <div>
+        <div style={{ color: 'red' }}>
+          {console.log('__ columnConfig', columnConfig)}
           {config?.actions && <DownOutlined style={{ marginRight: '10px' }} />}
           <span>
             {aggregation === false
