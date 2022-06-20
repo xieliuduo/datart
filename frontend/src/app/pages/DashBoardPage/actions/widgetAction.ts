@@ -29,7 +29,7 @@ import {
   getChartWidgetDataAsync,
   getControllerOptions,
   getWidgetData,
-  syncWidgetChartDataAsync,
+  syncBoardWidgetChartDataAsync,
 } from '../pages/Board/slice/thunk';
 import {
   BoardLinkFilter,
@@ -51,12 +51,14 @@ import {
   getEditChartWidgetDataAsync,
   getEditControllerOptions,
   getEditWidgetData,
+  syncEditBoardWidgetChartDataAsync,
 } from '../pages/BoardEditor/slice/thunk';
 import {
   EditBoardState,
   HistoryEditBoard,
 } from '../pages/BoardEditor/slice/types';
 import { Widget } from '../types/widgetTypes';
+import { getTheWidgetFiltersAndParams } from '../utils';
 import {
   getCascadeControllers,
   getNeedRefreshWidgetsByController,
@@ -184,25 +186,33 @@ export const widgetClickJumpAction =
   };
 
 export const widgetLinkEventAction =
-  (widget: Widget, params: Array<{ filters; rule }>) =>
+  (renderMode, widget: Widget, params: Array<{ filters; rule }>) =>
   async (dispatch, getState) => {
-    // 1. get link charts
     const targetLinkDataChartIds = (params || []).map(p => p.rule?.relId);
     const rootState = getState() as RootState;
+    const viewBoardState = rootState.board as BoardState;
+    const editBoardState = rootState.editBoard as EditBoardState;
+    const widgetMapMap = viewBoardState?.widgetRecord;
+    const boardWidgetInfoRecord =
+      renderMode === 'read'
+        ? viewBoardState?.widgetInfoRecord?.[widget?.dashboardId]
+        : editBoardState.widgetInfoRecord;
+    const widgetMap = widgetMapMap?.[widget?.dashboardId] || {};
+    const sourceWidgetInfo = boardWidgetInfoRecord?.[widget.id];
+    const sourceRuntimeWidgetInfo = sourceWidgetInfo?.linkInfo || {};
+
     const boardLinkWidgets = Object.entries(
-      rootState.board?.widgetRecord?.[widget?.dashboardId] || {},
+      widgetMapMap?.[widget?.dashboardId] || {},
     )
       .filter(([k, v]) => {
         return targetLinkDataChartIds.includes(v.datachartId);
       })
       .map(([k, v]) => v);
-
-    // 2. update all linked charts dataset
     boardLinkWidgets.forEach(w => {
       const filterObj = params?.find(
         p => p?.rule?.relId === w.datachartId,
       )?.filters;
-      const extraFilters: ChartDataRequestFilter[] = Object.entries(
+      const clickFilters: ChartDataRequestFilter[] = Object.entries(
         filterObj || {},
       ).map(([k, v]) => {
         return {
@@ -211,19 +221,51 @@ export const widgetLinkEventAction =
           values: (v as any)?.map(vv => ({ value: vv, valueType: 'STRING' })),
         };
       });
-      dispatch(
-        syncWidgetChartDataAsync({
-          boardId: w.dashboardId,
-          widgetId: w.id,
-          renderMode: 'read',
-          option: {
-            pageInfo: { pageNo: 1 },
-          },
-          extraFilters,
-        }),
-      );
+      const widgetInfo = boardWidgetInfoRecord?.[w.id];
+      const runtimeWidgetInfo = widgetInfo?.linkInfo || {};
+      const { filterParams: controllerFilters, variableParams } =
+        getTheWidgetFiltersAndParams({
+          chartWidget: w,
+          widgetMap: widgetMap,
+          params: undefined,
+        });
+
+      if (renderMode === 'read') {
+        dispatch(
+          syncBoardWidgetChartDataAsync({
+            boardId: w.dashboardId,
+            widgetId: w.id,
+            option: widgetInfo,
+            extraFilters: (clickFilters || [])
+              .concat(controllerFilters || [])
+              .concat(sourceRuntimeWidgetInfo?.filters || [])
+              .concat(runtimeWidgetInfo?.filters || []),
+            variableParams: Object.assign(
+              variableParams,
+              sourceRuntimeWidgetInfo?.variables,
+              runtimeWidgetInfo?.variables,
+            ),
+          }),
+        );
+      } else if (renderMode === 'edit') {
+        dispatch(
+          syncEditBoardWidgetChartDataAsync({
+            boardId: w.dashboardId,
+            widgetId: w.id,
+            option: widgetInfo,
+            extraFilters: (clickFilters || [])
+              .concat(controllerFilters || [])
+              .concat(sourceRuntimeWidgetInfo?.filters || [])
+              .concat(runtimeWidgetInfo?.filters || []),
+            variableParams: Object.assign(
+              variableParams,
+              sourceRuntimeWidgetInfo?.variables,
+              runtimeWidgetInfo?.variables,
+            ),
+          }),
+        );
+      }
     });
-    // TODO: 3. save link filter into chart
   };
 
 export const widgetClickLinkageAction =
@@ -354,9 +396,9 @@ export const widgetChartClickAction =
   };
 
 export const widgetLinkEventActionCreator =
-  (obj: { widget: Widget; params: any }) => dispatch => {
-    const { widget, params } = obj;
-    dispatch(widgetLinkEventAction(widget, params));
+  (obj: { renderMode: string; widget: Widget; params: any }) => dispatch => {
+    const { renderMode, widget, params } = obj;
+    dispatch(widgetLinkEventAction(renderMode, widget, params));
   };
 
 export const widgetGetDataAction =
